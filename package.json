@@ -60,10 +60,10 @@
   },
   "homepage": "https://github.com/nebo15/react-nebo15-validate",
   "peerDependencies": {
-    "react": "^15.0.0",
-    "react-addons-test-utils": "^15.0.0"
+    "react": "^15.0.0"
   },
   "dependencies": {
+    "lodash": "^4.17.4",
     "react": "^15.4.2"
   }
 }
