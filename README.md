@@ -1,7 +1,7 @@
 # React Nebo15 Validate
 
 [![Build Status](https://travis-ci.org/Nebo15/react-nebo15-validate.svg?branch=master)](https://travis-ci.org/Nebo15/react-nebo15-validate)
- 
+
 Validation module for React JS application.
 
 ### Installation
