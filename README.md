@@ -1,5 +1,7 @@
 # React Nebo15 Validate
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Nebo15/react-nebo15-validate.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/Nebo15/react-nebo15-validate.svg?branch=master)](https://travis-ci.org/Nebo15/react-nebo15-validate)
 
 Validation module for React JS application.
