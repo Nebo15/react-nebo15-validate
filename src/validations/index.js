@@ -9,6 +9,10 @@ const CARD_TYPES = {
   visa: /^4/,
 };
 
+const isNaN = x => (x !== x); // eslint-disable-line
+const isDefined = val => typeof val !== 'undefined' && val !== null && !isNaN(val);
+const toString = val => (isDefined(val) ? String(val) : '');
+
 const defaultValidators = {
   array: value => Array.isArray(value),
   object: value => value !== null && typeof value === 'object',
@@ -20,8 +24,11 @@ const defaultValidators = {
   oneOf: value => Array.isArray(value) && value.length !== 0,
   minOfArray: (value, params, values, all) => all[params.array]
     .reduce((target, item) => (target + item[params.prop]), 0) >= params.min,
-
-  required: value => !!value,
+  required: (value, params) => {
+    const mustBeRequired = !!params;
+    if (!mustBeRequired) return true;
+    return !!value;
+  },
   ipv4: function ipv4Validation(value) {
     return this.format(value, PATTERNS_IPV4);
   },
@@ -34,9 +41,9 @@ const defaultValidators = {
   min: (value, param) => value >= param,
   max: (value, param) => value <= param,
   equals: (value, param) => value === param,
-  length: (value, param) => String(value).length === param,
-  minLength: (value, param) => String(value).length >= param,
-  maxLength: (value, param) => String(value).length <= param,
+  length: (value, param) => toString(value).length === param,
+  minLength: (value, param) => toString(value).length >= param,
+  maxLength: (value, param) => toString(value).length <= param,
   minDate: (value, param) => value.getTime() >= param.getTime(),
   maxDate: (value, param) => value.getTime() <= param.getTime(),
   format: (value, pattern) => pattern.test(value),
@@ -122,6 +129,5 @@ const defaultValidators = {
 const userValidations = {};
 
 export const addValidation = (name, fn) => { userValidations[name] = fn; };
-export const removeValidation = (name) => { delete userValidations[name]; };
-
-export default Object.assign(defaultValidators, userValidations);
+export const removeValidation = (name) => { userValidations[name] = undefined; };
+export const getValidation = name => Object.assign(defaultValidators, userValidations)[name];

@@ -68,7 +68,7 @@ ErrorMessage.propTypes = {
 };
 
 export const ErrorMessagesComponent = ({ error, children }) => {
-  if (!errors) return null;
+  if (!error || Object.keys(error).length < 1) return null;
   const [errorKey, errorParams] = Object.entries(error)[0];
   const messages = React.Children.toArray(children).filter(i => i.props.when === errorKey);
   if (!messages || !messages.length) return null;
