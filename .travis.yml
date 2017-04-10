@@ -20,3 +20,13 @@ script:
 - npm run lint && npm test || { exit 1; }
 after_success:
 - ./bin/ci/push.sh
+deploy:
+  provider: npm
+  email: alexeybondarenko@me.com
+  skip_cleanup: true
+  api_key:
+    secure: iM39sfIqGNiIHx6XEeT/M4MrBk9gsMRcAtgknPpKClpOUUxJukdRylsCKco1SRriQZQR/kGRcJqopznxyz3zExDHHRti672eP8z5xTPJx73mPvA9X4+wWn/t/ZtAjDGm7B+KXfDkXywEMZXUNmeKCq9oDyOo2D8cAZGuBgkE1OEB/X2IiKLijQZ4LBpqX6uodcpyHO/TIaTyoQAtNebcenVyMnG3dRL/S7pYMz3hOVV2AhxH2c0ZBE62OcfYclI8gL+Qf5g3but6GZCqw4HAi3dCm4ezgEOeoaUTqcPshbHsA/HN3usmqwrCSdS+BoW+OWPsIzZ6jIoF58K+ZL2ClCqFD5gPC8eXTMTKl4FDWQM+bh5a0lJUiGdFaa4+mAE+n7RMApuZB7DBVZPNGSSzyyJWHm6NOZDIyg5AvzypDGUyeE+kj4MCm5xP22y9sanZND5nG4tPcXg8rF07GnC2M+vdFhwZnY7F12lbEu53cj7JavcOkKAXg1SoiMQISmt8xkxOcUtWxVv/Axt3Pta91uEQitGFTrWB1v9fvVAM1TBkd+UgH//0JVfoPTciLwf1aCEhQlxaCuGmyWHWAOpCxHos+dEZSpCq6Mehw5D6ec7diHnrJ4Qh6S3iiZdEUTbORmO10r8H1dX4We16tsvo8GJDmRhL8v7xbTHKS8LJh0M=
+  on:
+    tags: true
+    branch: master
+    repo: Nebo15/react-nebo15-validate
