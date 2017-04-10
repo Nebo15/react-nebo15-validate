@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- 6.9.1
+cache:
+  directories:
+  - ~/.nvm
+  - node_modules
+git:
+  depth: 1
+env:
+  global:
+  - RELEASE_BRANCH="master"
+  - MAIN_BRANCHES="master develop"
+  - secure: 2CPxFS5CkXwJpzqJ4VsKzkjjlFQ5vaqQSbnPA/bEdz5EOY65ypH4fvysI3CyW02Kvw3Gn5LoWMdDrnwOMWsidQwti5KgN5sf4SlvsYX+GJJmUAAkVFiRT6y3LPTeR4d6eRZH3kgsUJet3e6SMGp0gaq2SgRxzkAi3NKene8TxBlps/Y3ORWryME+6xG7AX8y4tWHDOhKohGc6Lo6xicoQ9a3SwXld+f1xMtJDPLHx3khXcsuRWf4jIV9DqrKM481zbqk/fahp6UIUyzUGpO1yPBxGu4238ZtWzj8wuQeyXgfJEd1sMzhRqxZ7NApLKY0YVXgY4sf2MvgyySBKe8JC4bxYfj1W3KXq9bfkGy/TxdZK/hyhQYFo9uBFkJ+zWFBMzkAETji04lZcxuKvkrdibE/SnPn4TkXkNCR5keuQVK1KSkSTHMELQh+KtLCrNEAEh2Y6160OrpHR9N5GhPYn7pX7bVbG84Omj/mBItA3jNpAViR0xIFyVivf6yZuarU+0rT8u8BooF/57wWmaTcCRPsuDh6YNhFAT05zaiQj7nJb6LGH7xACy87Q1Id+SIcuuc6tq98q/BKJkxU7Zgung2poCekZr+NZr+RYrKjaw+Eg1dhagqrIBHeMTn38EVHJFsW8Vn8ruz2/Kc2otQBTTPn80crpzlxXHDIRlCu1Vg=
+before_script:
+- chmod -R +x bin
+- ./bin/version-increment.sh || { exit 1; }
+- npm run build
+script:
+- npm run lint && npm test || { exit 1; }
+after_success:
+- ./bin/ci/push.sh

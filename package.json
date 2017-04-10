@@ -1,0 +1,69 @@
+{
+  "name": "react-nebo15-validate",
+  "version": "0.1.0",
+  "description": "React validation module by Nebo15",
+  "main": "lib/react-nebo15-validate.min.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register ./test/**/*spec.js",
+    "lint": "eslint src spec",
+    "build": "webpack && webpack --mode=build",
+    "dev": "webpack --progress --colors --watch --mode=dev",
+    "prepublish": "rimraf lib && npm run build"
+  },
+  "devDependencies": {
+    "babel": "6.3.13",
+    "babel-core": "6.24.0",
+    "babel-eslint": "7.2.1",
+    "babel-loader": "6.4.1",
+    "babel-plugin-add-module-exports": "0.2.1",
+    "babel-plugin-transform-es5-property-mutators": "^6.8.0",
+    "babel-preset-es2015": "6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-require": "^1.0.1",
+    "chai": "^3.5.0",
+    "chai-spies": "^0.7.1",
+    "enzyme": "^2.8.0",
+    "eslint": "^3.5.0",
+    "eslint-config-airbnb": "11.1.0",
+    "eslint-loader": "^1.7.0",
+    "eslint-plugin-import": "1.16.0",
+    "eslint-plugin-jsx-a11y": "2.2.2",
+    "eslint-plugin-react": "6.6.0",
+    "estraverse-fb": "^1.3.1",
+    "jsdom": "^9.12.0",
+    "mocha": "^2.3.4",
+    "rimraf": "^2.6.1",
+    "webpack": "1.12.9",
+    "yargs": "3.32.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nebo15/react-nebo15-validate.git"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "webpack"
+    ]
+  },
+  "keywords": [
+    "validate",
+    "validation",
+    "validator",
+    "react",
+    "nebo15"
+  ],
+  "author": "Nebo15",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nebo15/react-nebo15-validate/issues"
+  },
+  "homepage": "https://github.com/nebo15/react-nebo15-validate",
+  "peerDependencies": {
+    "react": "^15.0.0",
+    "react-addons-test-utils": "^15.0.0"
+  },
+  "dependencies": {
+    "react": "^15.4.2"
+  }
+}
