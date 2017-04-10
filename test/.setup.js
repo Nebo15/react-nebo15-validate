@@ -1,4 +1,5 @@
-var jsdom = require('jsdom').jsdom;
+import { expect } from 'chai';
+import { jsdom } from 'jsdom';
 
 var exposedProperties = ['window', 'navigator', 'document'];
 
