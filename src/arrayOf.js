@@ -6,4 +6,4 @@ class ValidateArray {
 }
 
 export { ValidateArray };
-export default validators => new ValidateArray(validators);
+export default validations => new ValidateArray(validations);

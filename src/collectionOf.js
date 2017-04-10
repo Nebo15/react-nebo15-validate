@@ -10,4 +10,4 @@ class ValidateCollection {
 }
 
 export { ValidateCollection };
-export default (validators, options) => new ValidateCollection(validators, options);
+export default (validations, options) => new ValidateCollection(validations, options);
