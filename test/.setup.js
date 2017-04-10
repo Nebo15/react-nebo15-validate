@@ -17,3 +17,4 @@ global.navigator = {
 };
 
 global.documentRef = document;
+global.expect = expect;
