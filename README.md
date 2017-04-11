@@ -142,3 +142,63 @@ export default class ProfileForm extends React.Component {
 - alphanumeric - value is an alphanumeric string
 - metadata - description http://docs.apimanifest.apiary.io/#introduction/interacting-with-api/errors
 - json - value is a valid json object
+
+### Add custom validation
+
+`addValidation(name, validationFn)` - add custom validation function   
+`removeValidation(name)`   
+`getValidation(name)`   
+
+### Redux Form
+
+`reduxFormValidate` transform error message for `redux-form` format.
+
+### Collections and arrays
+
+You can validation collections and arrays.
+
+```
+import { collectionOf, arrayOf } from 'redux-nebo15-validate';
+
+/// collectionOf
+
+const schema = {
+  contacts: collectionOf({
+    first_name: {
+      required: true,
+      minLength: 4,
+    },
+    last_name: {
+      required: true,
+      minLength: 4,
+    },
+    second_name: {
+      minLength: 4,
+    }
+  }),
+}
+
+const data = {
+  contacts: [
+    {
+      first_name: 'Ivan',   // valid
+      last_name: 'Ivanov',  // valid
+      second_name: 'S'      // invalid
+    }
+  ]
+}
+
+// arrayOf
+
+const schema = {
+  tags: arrayOf({
+    required: true,
+    minLength: 4,
+  }),
+}
+
+const data = {
+  tags: ['new','news','tags'] // invalid, valid, valid
+}
+
+```
