@@ -126,5 +126,42 @@ describe('validate', () => {
         },
       });
     });
-  });
+
+    describe('options', () => {
+
+      it('it should return en error on empty collection if required', () => {
+        const schema = {
+          contacts: collectionOf({}, {
+            required: true,
+          }),
+        };
+        expect(validate({
+          contacts: null,
+        }, schema)).to.deep.equal({
+          'contacts': {
+            required: true,
+          },
+        });
+      });
+      it('it should return also on option error on valid object', () => {
+        const schema = {
+          contacts: collectionOf({
+            first_name: {
+              required: true,
+              minLength: 4,
+            },
+          }, {
+            minLength: 1,
+          }),
+        };
+        expect(validate({
+          contacts: [],
+        }, schema)).to.deep.equal({
+          'contacts': {
+            minLength: 1,
+          },
+        });
+      });
+    });
+  })
 });
