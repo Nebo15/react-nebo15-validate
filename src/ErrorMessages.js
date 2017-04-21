@@ -33,6 +33,7 @@ const errors = {
   phone_number: 'Invalid phone number format',
   card_number: 'Invalid card number format',
   unique: 'Values must be unique',
+  uniqueKey: 'Values must be unique key',
   dependency: 'Related field <%= params %> is not filled',
   alphanumeric: 'Value must contain only latin letters and digits',
   metadata: 'Invalid metadata format',
