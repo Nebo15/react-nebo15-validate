@@ -72,15 +72,9 @@ const defaultValidators = {
   card_number: value => validateCardNumber(value),
   unique: value => value.some((i, index) => value.indexOf(i) !== index),
   uniqueKey: (values, param) => {
-    console.log(values, param);
     return values.map(function(obj) {
       return obj[param];
-    }).forEach(function (el, index, arr) {
-      if (arr.indexOf(el) !== index) {
-        return true;
-      }
-      return false;
-    });
+    }).some((item) => item == param)
   },
   dependency: function dependencyValidation(value, param, allValues) {
     return this.required(getFn(allValues, param));
