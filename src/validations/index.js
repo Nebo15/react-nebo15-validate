@@ -74,7 +74,7 @@ const defaultValidators = {
   uniqueKey: (values, param) => {
     return values.map(function(obj) {
       return obj[param];
-    }).some((item) => item == param)
+    }).some(item => item == param)
   },
   dependency: function dependencyValidation(value, param, allValues) {
     return this.required(getFn(allValues, param));
