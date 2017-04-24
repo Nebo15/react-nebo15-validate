@@ -38,28 +38,48 @@ describe('validateValue', () => {
   });
   it('it should return an error for not uniqueKey', () => {
     const schema = {
-      contacts: collectionOf({
-        first_name: {
+      documents: collectionOf({
+        id: {
           required: true,
-          minLength: 4,
         },
       }, {
-        uniqueKey: 'first_name',
+        uniqueKey: 'id',
       }),
     };
     expect(validate({
-      contacts: [
+      documents: [
         {
-          first_name: 'Ivan',
+          id: '123',
+          description: 'ajsd haksjdha kj',
         },
         {
-          first_name: 'Ivan',
-        },
+          id: '123',
+          description: 'aoidhas lkasd',
+        }
       ],
     }, schema)).to.deep.equal({
-      'contacts': {
-        uniqueKey: 'first_name',
+      documents: {
+        uniqueKey: 'id',
       },
     });
+
+    expect(validate({
+      documents: [
+        {
+          id: '123',
+        },
+        {
+          id: '124',
+        }
+      ],
+    }, schema)).to.deep.equal({});
+
+    expect(validate({
+      documents: ['123', '124'],
+    }, {
+      documents: {
+        uniqueKey: true,
+      }
+    })).to.deep.equal({});
   });
 });
