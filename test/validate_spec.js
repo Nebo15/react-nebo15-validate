@@ -147,7 +147,7 @@ describe('validate', () => {
 
     describe('options', () => {
 
-      it('should return en error on empty collection if required', () => {
+      it('should return en error for a collection root object', () => {
         const schema = {
           contacts: collectionOf({}, {
             required: true,
@@ -161,7 +161,7 @@ describe('validate', () => {
           },
         });
       });
-      it('should return also on option error on valid object', () => {
+      it('should return an error for a collection root object', () => {
         const schema = {
           contacts: collectionOf({
             first_name: {
