@@ -1,6 +1,6 @@
 {
   "name": "react-nebo15-validate",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "React validation module by Nebo15",
   "main": "lib/react-nebo15-validate.min.js",
   "scripts": {
