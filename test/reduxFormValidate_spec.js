@@ -31,7 +31,7 @@ describe('reduxFormValidate', () => {
     });
   });
 
-  describe('required', () => {
+  describe('includeRequired', () => {
     const validate = reduxFormValidate({
       description: {
         minLength: 4,
@@ -43,6 +43,20 @@ describe('reduxFormValidate', () => {
       expect(validate({ description: undefined })).to.deep.equal({});
       expect(validate({ description: null })).to.deep.equal({});
       expect(validate({ description: 'abc' })).to.deep.equal({ description: { minLength: 4 } });
+    });
+
+    describe(':true', () => {
+      const validate = reduxFormValidate({
+        description: {
+          minLength: 4,
+        },
+      }, {
+        includeRequired: true,
+      });
+
+      it('should return an error', () => {
+        expect(validate({ description: '' })).to.deep.equal({ description: { minLength: 4 } });
+      });
     });
   });
 });
