@@ -45,7 +45,6 @@ export default function validate(obj, schema, options = {}, allValues) {
           [path]: objectValidation,
         };
       }
-
     } else if (validators instanceof ValidateArray) {
       const validations = validateArray(value, validators.schema, values);
       if (validations) {
