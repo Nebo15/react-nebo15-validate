@@ -71,7 +71,17 @@ const defaultValidators = {
   },
   card_number: value => validateCardNumber(value),
   unique: value => value.some((i, index) => value.indexOf(i) !== index),
-  uniqueKey: (value, values, key) => false,
+  uniqueKey: (values, param) => {
+    console.log(values, param);
+    return values.map(function(obj) {
+      return obj[param];
+    }).forEach(function (el, index, arr) {
+      if (arr.indexOf(el) !== index) {
+        return true;
+      }
+      return false;
+    });
+  },
   dependency: function dependencyValidation(value, param, allValues) {
     return this.required(getFn(allValues, param));
   },

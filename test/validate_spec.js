@@ -162,7 +162,7 @@ describe('validate', () => {
           },
         });
       });
-      it('it should return an eror for not uniqueKey', () => {
+      it('it should return an error for not uniqueKey', () => {
         const schema = {
           contacts: collectionOf({
             first_name: {
