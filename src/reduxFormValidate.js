@@ -4,16 +4,22 @@ import validate from './validate';
 import { ValidateArray } from './arrayOf';
 import { ValidateCollection } from './collectionOf';
 
-export default schema => (values, props) => validate(values, schema, {
-  props,
-  format: errors => {
-    return Object.entries(errors).reduce((prev, [path, value]) => {
+
+export default (schema, { includeRequired = false } = {}) => (values, props) => {
+  // FIXME: hotfix for redux form validation of Fields Array
+  if (Array.isArray(values)) return undefined;
+  return validate(values, schema, {
+    props,
+    format: errors => Object.entries(errors).reduce((prev, [path, errors]) => {
       const pathSchema = getFn(schema, path);
-      console.log('format', path, value, pathSchema);
+      const value = getFn(values, path);
+      if (includeRequired === false && pathSchema.required !== true && (value === '' || typeof value === 'undefined' || value === null)) {
+        return prev;
+      }
       if (pathSchema instanceof ValidateArray || pathSchema instanceof ValidateCollection) {
-        setFn(prev, path + '._error', value);
+        setFn(prev, path + '._error', errors);
       } else {
-        setFn(prev, path, value);
+        setFn(prev, path, errors);
       }
       return prev;
     }, {});

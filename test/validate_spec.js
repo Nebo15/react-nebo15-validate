@@ -146,7 +146,6 @@ describe('validate', () => {
     });
 
     describe('options', () => {
-
       it('should return en error for a collection root object', () => {
         const schema = {
           contacts: collectionOf({}, {
