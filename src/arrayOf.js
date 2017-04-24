@@ -1,9 +1,10 @@
 
 class ValidateArray {
-  constructor(schema) {
+  constructor(schema, options) {
     this.schema = schema;
+    this.options = options;
   }
 }
 
 export { ValidateArray };
-export default schema => new ValidateArray(schema);
+export default (schema, options) => new ValidateArray(schema, options);
