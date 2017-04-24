@@ -3,11 +3,11 @@ import validateValue from './validateValue';
 import { ValidateArray } from './arrayOf';
 import { ValidateCollection } from './collectionOf';
 
-const validateCollection = (value = [], schema, options, allValues) =>
-  value.map(item => validate(item, schema, options, allValues));
+const validateCollection = (value, schema, options, allValues) =>
+  (value || []).map(item => validate(item, schema, options, allValues));
 
-const validateArray = (value = [], schema, values) =>
-  value.map(item => validateValue(item, schema, values));
+const validateArray = (value, schema, values) =>
+  (value || []).map(item => validateValue(item, schema, values));
 
 export default function validate(obj, schema, options = {}, allValues) {
   const values = Object.assign({}, obj);
@@ -16,21 +16,34 @@ export default function validate(obj, schema, options = {}, allValues) {
     let newError = errors;
 
     if (validators instanceof ValidateCollection) {
-      const validations = validateCollection(
+      const itemsValidation = validateCollection(
         value,
         validators.schema,
         options,
         allValues || values
       );
 
-      if (validations && validations.length) {
-        newError = Object.assign({}, validations.reduce((error, item, index) =>
+      const objectValidation = validateValue(
+        value,
+        validators.options,
+        allValues || values
+      );
+
+      if (itemsValidation && itemsValidation.length) {
+        newError = Object.assign({}, itemsValidation.reduce((error, item, index) =>
             Object.entries(item).reduce((res, [subPath, error]) => ({
               ...res,
               [`${path}[${index}].${subPath}`]: error,
             }), error),
           errors
         ));
+      }
+
+      if (objectValidation && Object.values(objectValidation).length > 0) {
+        newError = {
+          ...newError,
+          [path]: objectValidation,
+        };
       }
     } else if (validators instanceof ValidateArray) {
       const validations = validateArray(value, validators.schema, values);
