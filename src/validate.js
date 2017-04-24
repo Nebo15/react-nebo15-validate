@@ -14,7 +14,6 @@ export default function validate(obj, schema, options = {}, allValues) {
   let result = Object.entries(schema).reduce((errors, [path, validators]) => {
     const value = getFn(obj, path);
     let newError = errors;
-    let objectValidationError = errors;
 
     if (validators instanceof ValidateCollection) {
       const itemsValidation = validateCollection(
