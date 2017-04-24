@@ -72,7 +72,7 @@ const defaultValidators = {
   card_number: value => validateCardNumber(value),
   unique: value => value.some((i, index) => value.indexOf(i) !== index),
   uniqueKey: (values, param) => {
-    let keys = typeof param === 'string' ? values.map(i => i[param]) : values;
+    const keys = typeof param === 'string' ? values.map(i => i[param]) : values;
     return keys.length === new Set(keys).size;
   },
   dependency: function dependencyValidation(value, param, allValues) {
