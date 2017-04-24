@@ -67,7 +67,7 @@ describe('validate', () => {
       }, schema)).to.deep.equal({});
     });
     describe('options', () => {
-      it('should return also on option error on valid object', () => {
+      it('should return and error for the root object', () => {
         const schema = {
           contacts: arrayOf({
             required: true,
