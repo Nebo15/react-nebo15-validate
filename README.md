@@ -145,17 +145,17 @@ export default class ProfileForm extends React.Component {
 
 ### Add custom validation
 
-`addValidation(name, validationFn)` - add custom validation function   
-`removeValidation(name)`   
-`getValidation(name)`   
+`addValidation(name, validationFn)` - add custom validation function       
+`removeValidation(name)` - remove custom validation function by name    
+`getValidation(name)` - get custom validation function by name    
 
 ### Redux Form
 
-`reduxFormValidate` transform error message for `redux-form` format.
+`reduxFormValidate` transforms error message for `redux-form` format.
 
 ### Collections and arrays
 
-You can validation collections and arrays.
+You can validate collections and arrays.
 
 ```
 import { collectionOf, arrayOf } from 'redux-nebo15-validate';
