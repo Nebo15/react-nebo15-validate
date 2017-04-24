@@ -1,4 +1,5 @@
 import setFn from 'lodash/set';
+import getFn from 'lodash/get';
 import validate from './validate';
 
 export default schema => (values, props) => {
@@ -6,8 +7,13 @@ export default schema => (values, props) => {
   if (Array.isArray(values)) return undefined;
   return validate(values, schema, {
     props,
-    format: errors => Object.entries(errors).reduce((prev, [path, value]) => {
-      setFn(prev, path, value);
+    format: errors => Object.entries(errors).reduce((prev, [path, errors]) => {
+      const pathSchema = getFn(schema, path);
+      const value = getFn(values, path);
+      if (pathSchema.required !== true && (value === '' || typeof value === 'undefined' || value === null)) {
+        return prev;
+      }
+      setFn(prev, path, errors);
       return prev;
     }, {}),
   });

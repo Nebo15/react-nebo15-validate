@@ -30,4 +30,19 @@ describe('reduxFormValidate', () => {
       },
     });
   });
+
+  describe('required', () => {
+    const validate = reduxFormValidate({
+      description: {
+        minLength: 4,
+      },
+    });
+
+    it('should not return error if value is empty and not required', () => {
+      expect(validate({ description: '' })).to.deep.equal({});
+      expect(validate({ description: undefined })).to.deep.equal({});
+      expect(validate({ description: null })).to.deep.equal({});
+      expect(validate({ description: 'abc' })).to.deep.equal({ description: { minLength: 4 } });
+    });
+  });
 });
