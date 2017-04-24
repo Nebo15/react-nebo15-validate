@@ -162,32 +162,6 @@ describe('validate', () => {
           },
         });
       });
-      it('it should return an error for not uniqueKey', () => {
-        const schema = {
-          contacts: collectionOf({
-            first_name: {
-              required: true,
-              minLength: 4,
-            },
-          }, {
-            uniqueKey: 'first_name',
-          }),
-        };
-        expect(validate({
-          contacts: [
-            {
-              first_name: 'Ivan',
-            },
-            {
-              first_name: 'Ivan',
-            },
-          ],
-        }, schema)).to.deep.equal({
-          'contacts': {
-            uniqueKey: 'first_name',
-          },
-        });
-      });
     });
   })
 });

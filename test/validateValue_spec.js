@@ -1,4 +1,6 @@
 import validateValue from '../src/validateValue';
+import validate from '../src/validate';
+import collectionOf from '../src/collectionOf';
 
 describe('validateValue', () => {
   const value = 'Iva';
@@ -33,5 +35,31 @@ describe('validateValue', () => {
     expect(() => validateValue(null, {
       someNewValidator: true,
     })).to.throw;
+  });
+  it('it should return an error for not uniqueKey', () => {
+    const schema = {
+      contacts: collectionOf({
+        first_name: {
+          required: true,
+          minLength: 4,
+        },
+      }, {
+        uniqueKey: 'first_name',
+      }),
+    };
+    expect(validate({
+      contacts: [
+        {
+          first_name: 'Ivan',
+        },
+        {
+          first_name: 'Ivan',
+        },
+      ],
+    }, schema)).to.deep.equal({
+      'contacts': {
+        uniqueKey: 'first_name',
+      },
+    });
   });
 });
