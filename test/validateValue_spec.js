@@ -37,49 +37,34 @@ describe('validateValue', () => {
     })).to.throw;
   });
   it('it should return an error for not uniqueKey', () => {
-    const schema = {
-      documents: collectionOf({
-        id: {
-          required: true,
-        },
-      }, {
-        uniqueKey: 'id',
-      }),
-    };
-    expect(validate({
-      documents: [
-        {
-          id: '123',
-          description: 'ajsd haksjdha kj',
-        },
-        {
-          id: '123',
-          description: 'aoidhas lkasd',
-        }
-      ],
-    }, schema)).to.deep.equal({
-      documents: {
-        uniqueKey: 'id',
+    expect(validateValue([
+      {
+        id: '123',
+        description: 'ajsd haksjdha kj',
       },
+      {
+        id: '123',
+        description: 'aoidhas lkasd',
+      }
+    ], {
+      uniqueKey: 'id',
+    })).to.deep.equal({
+      uniqueKey: 'id',
     });
 
-    expect(validate({
-      documents: [
-        {
-          id: '123',
-        },
-        {
-          id: '124',
-        }
-      ],
-    }, schema)).to.deep.equal({});
-
-    expect(validate({
-      documents: ['123', '124'],
-    }, {
-      documents: {
-        uniqueKey: true,
+    expect(validateValue([
+      {
+        id: '123',
+      },
+      {
+        id: '124',
       }
-    })).to.deep.equal({});
+    ], {
+      uniqueKey: 'id',
+    })).to.deep.equal(null);
+
+    expect(validateValue(['123', '124'], {
+      uniqueKey: true,
+    })).to.deep.equal(null);
   });
 });
