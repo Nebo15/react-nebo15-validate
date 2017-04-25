@@ -17,11 +17,11 @@ export default (schema, { includeRequired = false } = {}) => (values, props) => 
         return prev;
       }
       if (pathSchema instanceof ValidateArray || pathSchema instanceof ValidateCollection) {
-        setFn(prev, path + '._error', errors);
+        setFn(prev, `${path}._error`, errors);
       } else {
         setFn(prev, path, errors);
       }
       return prev;
-    }, {});
-  }
-});
+    }, {})
+  });
+};

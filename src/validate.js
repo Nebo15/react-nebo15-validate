@@ -53,17 +53,17 @@ export default function validate(obj, schema, options = {}, allValues) {
         allValues || values
       );
       if (itemsValidation) {
-        newError = Object.assign({}, errors, itemsValidation.reduce((error, item, index) => (item ? ({
-          ...error,
-          [`${path}[${index}]`]: item,
-        }) : error), {}));
+        newError = Object.assign({}, errors, itemsValidation.reduce((error, item, index) =>
+          (item ? ({
+            ...error,
+            [`${path}[${index}]`]: item,
+          }) : error), {}));
       }
       if (objectValidation && Object.values(objectValidation).length > 0) {
         newError = {
           ...newError,
           [path]: objectValidation,
         };
-        console.log(newError)
       }
     } else {
       const validation = validateValue(value, validators, values, options.props, allValues);
