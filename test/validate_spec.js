@@ -66,6 +66,24 @@ describe('validate', () => {
         tags: ['news', 'news', 'other']
       }, schema)).to.deep.equal({});
     });
+    describe('options', () => {
+      it('should return and error for the root object', () => {
+        const schema = {
+          contacts: arrayOf({
+            required: true,
+          }, {
+            minLength: 1,
+          }),
+        };
+        expect(validate({
+          contacts: [],
+        }, schema)).to.deep.equal({
+          'contacts': {
+            minLength: 1,
+          },
+        });
+      });
+    });
   });
 
   describe('collectionOf', () => {
@@ -128,8 +146,7 @@ describe('validate', () => {
     });
 
     describe('options', () => {
-
-      it('it should return en error on empty collection if required', () => {
+      it('should return en error for a collection root object', () => {
         const schema = {
           contacts: collectionOf({}, {
             required: true,
@@ -143,7 +160,7 @@ describe('validate', () => {
           },
         });
       });
-      it('it should return also on option error on valid object', () => {
+      it('should return an error for a collection root object', () => {
         const schema = {
           contacts: collectionOf({
             first_name: {

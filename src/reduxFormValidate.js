@@ -1,6 +1,9 @@
 import setFn from 'lodash/set';
 import getFn from 'lodash/get';
 import validate from './validate';
+import { ValidateArray } from './arrayOf';
+import { ValidateCollection } from './collectionOf';
+
 
 export default (schema, { includeRequired = false } = {}) => (values, props) => {
   // FIXME: hotfix for redux form validation of Fields Array
@@ -13,8 +16,12 @@ export default (schema, { includeRequired = false } = {}) => (values, props) => 
       if (includeRequired === false && pathSchema.required !== true && (value === '' || typeof value === 'undefined' || value === null)) {
         return prev;
       }
-      setFn(prev, path, errors);
+      if (pathSchema instanceof ValidateArray || pathSchema instanceof ValidateCollection) {
+        setFn(prev, `${path}._error`, errors);
+      } else {
+        setFn(prev, path, errors);
+      }
       return prev;
-    }, {}),
+    }, {})
   });
 };

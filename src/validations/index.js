@@ -70,7 +70,7 @@ const defaultValidators = {
     return this.format(value, pattern instanceof RegExp ? pattern : PATTERNS_PHONE_NUMBER);
   },
   card_number: value => validateCardNumber(value),
-  unique: value => value.some((i, index) => value.indexOf(i) !== index),
+  unique: values => values.length === new Set(values).size,
   uniqueKey: (values, param) => {
     const keys = typeof param === 'string' ? values.map(i => i[param]) : values;
     return keys.length === new Set(keys).size;
