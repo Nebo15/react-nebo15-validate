@@ -69,7 +69,7 @@ describe('reduxFormValidate', () => {
         }),
       });
       expect(validate({
-        contacts: ['1', '1'],
+        contacts: [1, 1],
       })).to.deep.equal({
         'contacts': {
           '_error': {

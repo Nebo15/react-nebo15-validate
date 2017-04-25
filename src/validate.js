@@ -69,7 +69,6 @@ export default function validate(obj, schema, options = {}, allValues) {
       const validation = validateValue(value, validators, values, options.props, allValues);
       if (validation) newError = { ...errors, [path]: validation };
     }
-
     return newError;
   }, {});
 

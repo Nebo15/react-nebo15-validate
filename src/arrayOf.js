@@ -1,6 +1,6 @@
 
 class ValidateArray {
-  constructor(schema, options) {
+  constructor(schema, options = {}) {
     this.schema = schema;
     this.options = options;
   }
