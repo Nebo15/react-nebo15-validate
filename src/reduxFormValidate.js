@@ -1,8 +1,6 @@
 import setFn from 'lodash/set';
 import getFn from 'lodash/get';
 import validate from './validate';
-import { ValidateArray } from './arrayOf';
-import { ValidateCollection } from './collectionOf';
 
 
 export default (schema, { includeRequired = false } = {}) => (values, props) => {
