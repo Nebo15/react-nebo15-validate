@@ -27,12 +27,25 @@ describe('validate', () => {
   it('should return validation object', () => {
     expect(validate(value, schema)).to.deep.equal({
       last_name: {
-        required: true,
-        minLength: 4,
-        string: true,
+        error: {
+          required: true,
+          minLength: 4,
+          string: true,
+        },
+        schema: {
+          required: true,
+          minLength: 4,
+          string: true,
+        }
       },
       birth_date: {
-        maxDate: schema.birth_date.maxDate,
+        error: {
+          maxDate: schema.birth_date.maxDate,
+        },
+        schema: {
+          maxDate: schema.birth_date.maxDate,
+          required: true,
+        },
       },
     });
   });
@@ -45,11 +58,12 @@ describe('validate', () => {
   });
 
   describe('arrayOf', () => {
+    const tagSchema = {
+      required: true,
+      minLength: 4,
+    };
     const schema = {
-      tags: arrayOf({
-        required: true,
-        minLength: 4,
-      }),
+      tags: arrayOf(tagSchema),
     };
 
     it('should validate array by schema', () => {
@@ -57,7 +71,10 @@ describe('validate', () => {
         tags: ['new', 'news', 'other']
       }, schema)).to.deep.equal({
         'tags[0]': {
-          minLength: 4,
+          error: {
+            minLength: 4,
+          },
+          schema: tagSchema,
         },
       });
     });
@@ -68,10 +85,11 @@ describe('validate', () => {
     });
     describe('options', () => {
       it('should return and error for the root object', () => {
+        const contactSchema = {
+          required: true,
+        };
         const schema = {
-          contacts: arrayOf({
-            required: true,
-          }, {
+          contacts: arrayOf(contactSchema, {
             minLength: 1,
           }),
         };
@@ -79,7 +97,13 @@ describe('validate', () => {
           contacts: [],
         }, schema)).to.deep.equal({
           'contacts': {
-            minLength: 1,
+            error: {
+              minLength: 1,
+            },
+            schema: {
+              minLength: 1,
+            },
+            isArray: true,
           },
         });
       });
@@ -87,20 +111,21 @@ describe('validate', () => {
   });
 
   describe('collectionOf', () => {
+    const contactSchema = {
+      first_name: {
+        required: true,
+        minLength: 4,
+      },
+      last_name: {
+        required: true,
+        minLength: 4,
+      },
+      second_name: {
+        minLength: 4,
+      }
+    };
     const schema = {
-      contacts: collectionOf({
-        first_name: {
-          required: true,
-          minLength: 4,
-        },
-        last_name: {
-          required: true,
-          minLength: 4,
-        },
-        second_name: {
-          minLength: 4,
-        }
-      }),
+      contacts: collectionOf(contactSchema),
     };
 
     it('should validate collection by schema', () => {
@@ -118,10 +143,20 @@ describe('validate', () => {
         ],
       }, schema)).to.deep.equal({
         'contacts[0].second_name': {
-          minLength: 4,
+          error: {
+            minLength: 4,
+          },
+          schema: {
+            minLength: 4,
+          },
         },
         'contacts[1].second_name': {
-          minLength: 4,
+          error: {
+            minLength: 4,
+          },
+          schema: {
+            minLength: 4,
+          },
         },
       });
     });
@@ -140,7 +175,12 @@ describe('validate', () => {
         ],
       }, schema)).to.deep.equal({
         'contacts[0].second_name': {
-          minLength: 4,
+          error: {
+            minLength: 4,
+          },
+          schema: {
+            minLength: 4,
+          }
         },
       });
     });
@@ -156,7 +196,13 @@ describe('validate', () => {
           contacts: null,
         }, schema)).to.deep.equal({
           'contacts': {
-            required: true,
+            error: {
+              required: true,
+            },
+            schema: {
+              required: true,
+            },
+            isArray: true,
           },
         });
       });
@@ -175,7 +221,13 @@ describe('validate', () => {
           contacts: [],
         }, schema)).to.deep.equal({
           'contacts': {
-            minLength: 1,
+            error: {
+              minLength: 1,
+            },
+            schema: {
+              minLength: 1,
+            },
+            isArray: true,
           },
         });
       });

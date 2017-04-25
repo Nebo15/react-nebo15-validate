@@ -42,7 +42,11 @@ export default function validate(obj, schema, options = {}, allValues) {
       if (objectValidation && Object.values(objectValidation).length > 0) {
         newError = {
           ...newError,
-          [path]: objectValidation,
+          [path]: {
+            error: objectValidation,
+            schema: validators.options,
+            isArray: true,
+          },
         };
       }
     } else if (validators instanceof ValidateArray) {
@@ -56,18 +60,33 @@ export default function validate(obj, schema, options = {}, allValues) {
         newError = Object.assign({}, errors, itemsValidation.reduce((error, item, index) =>
           (item ? ({
             ...error,
-            [`${path}[${index}]`]: item,
+            [`${path}[${index}]`]: {
+              error: item,
+              schema: validators.schema,
+            },
           }) : error), {}));
       }
       if (objectValidation && Object.values(objectValidation).length > 0) {
         newError = {
           ...newError,
-          [path]: objectValidation,
+          [path]: {
+            error: objectValidation,
+            schema: validators.options,
+            isArray: true,
+          },
         };
       }
     } else {
       const validation = validateValue(value, validators, values, options.props, allValues);
-      if (validation) newError = { ...errors, [path]: validation };
+      if (validation) {
+        newError = {
+          ...errors,
+          [path]: {
+            error: validation,
+            schema: validators,
+          },
+        };
+      }
     }
     return newError;
   }, {});
