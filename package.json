@@ -1,10 +1,10 @@
 {
   "name": "react-nebo15-validate",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "React validation module by Nebo15",
   "main": "lib/react-nebo15-validate.min.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register ./test/**/*spec.js",
+    "test": "mocha --compilers js:babel-core/register ./test/**/**/*spec.js",
     "lint": "eslint src spec",
     "build": "webpack && webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev",
