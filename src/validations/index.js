@@ -26,9 +26,7 @@ const defaultValidators = {
     if (!mustBeRequired) return true;
     return !!value;
   },
-  ipv4: function ipv4Validation(value) {
-    return this.format(value, PATTERNS_IPV4);
-  },
+  ipv4: value => defaultValidators.format(value, PATTERNS_IPV4),
   cardType: (value, param) => param.some(name => CARD_TYPES[name.toLowerCase()].test(value)),
   greaterThan: (value, param) => value > param,
   min: (value, param) => value >= param,
@@ -41,15 +39,15 @@ const defaultValidators = {
   maxDate: (value, param) => value.getTime() <= param.getTime(),
   format: (value, pattern) => pattern.test(value),
   cast: function castValidation(value, type) {
-    if (this.array(type)) return type.each(i => this.cast(value, i));
+    if (defaultValidators.array(type)) return type.each(i => defaultValidators.cast(value, i));
     switch (type) {
-      case 'array': return this.array(value);
+      case 'array': return defaultValidators.array(value);
       case 'map':
-      case 'object': return this.object(value);
-      case 'integer': return this.integer(value);
-      case 'float': return this.float(value);
-      case 'boolean': return this.boolean(value);
-      case 'string': return this.string(value);
+      case 'object': return defaultValidators.object(value);
+      case 'integer': return defaultValidators.integer(value);
+      case 'float': return defaultValidators.float(value);
+      case 'boolean': return defaultValidators.boolean(value);
+      case 'string': return defaultValidators.string(value);
       default: {
         throw new Error(`unknown cast type: ${type}`);
       }
@@ -57,30 +55,23 @@ const defaultValidators = {
   },
   inclusion: (value, set) => set.indexOf(value) > -1,
   exclusion: (value, set) => set.indexOf(value) === -1,
-  subset: function subsetValidation(valueSet, set) {
-    return valueSet.each(i => this.inclusion(i, set));
-  },
+  subset: (valueSet, set) => valueSet.each(i => defaultValidators.inclusion(i, set)),
   number: (value, { min, max }) => value >= min && value <= max,
   confirmation: (value, path, allValues) => value === getFn(allValues, path),
   acceptance: value => value === true,
-  email: function emailValidation(value) {
-    return this.format(value, PATTERNS_EMAIL);
-  },
-  phone_number: function phoneNumberValidation(value, pattern) {
-    return this.format(value, pattern instanceof RegExp ? pattern : PATTERNS_PHONE_NUMBER);
-  },
+  email: value => defaultValidators.format(value, PATTERNS_EMAIL),
+  phone_number: (value, pattern) =>
+    defaultValidators.format(value, pattern instanceof RegExp ? pattern : PATTERNS_PHONE_NUMBER),
   card_number: value => validateCardNumber(value),
   unique: values => values.length === new Set(values).size,
   uniqueKey: (values, param) => {
     const keys = typeof param === 'string' ? values.map(i => i[param]) : values;
     return keys.length === new Set(keys).size;
   },
-  dependency: function dependencyValidation(value, param, allValues) {
-    return this.required(getFn(allValues, param));
-  },
+  dependency: (value, param, allValues) => defaultValidators.required(getFn(allValues, param)),
   alphanumeric: value => /^[a-zA-Z0-9]+$/.test(value),
   metadata: function metadataValidation(value) {
-    if (this.cast(value, 'array')) {
+    if (defaultValidators.cast(value, 'array')) {
       return value.length <= 25 && value.each(i => String(i).length <= 100);
     }
     const keys = Object.keys(value);
@@ -88,7 +79,7 @@ const defaultValidators = {
     const pattern = /^[a-zA-Z0-9-_]+$/;
     return keys.length <= 24 &&
       keys.each(i => String(i).length <= 100 && pattern.test(i)) &&
-      values.each(i => String(i).length <= 500 && this.cast(i, ['integer, float', 'array', 'boolean']));
+      values.each(i => String(i).length <= 500 && defaultValidators.cast(i, ['integer, float', 'array', 'boolean']));
   },
   json: (value) => {
     if (typeof value === 'object') return true;
