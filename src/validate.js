@@ -43,8 +43,11 @@ export default function validate(obj, schema, options = {}, allValues) {
         newError = {
           ...newError,
           [path]: {
-            error: objectValidation,
-            schema: validators.options,
+            error: objectValidation.errors,
+            schema: {
+              ...validators.options,
+              ...objectValidation.params,
+            },
             isArray: true,
           },
         };
@@ -61,8 +64,11 @@ export default function validate(obj, schema, options = {}, allValues) {
           (item ? ({
             ...error,
             [`${path}[${index}]`]: {
-              error: item,
-              schema: validators.schema,
+              error: item.errors,
+              schema: {
+                ...validators.schema,
+                ...item.params,
+              },
             },
           }) : error), {}));
       }
@@ -70,8 +76,11 @@ export default function validate(obj, schema, options = {}, allValues) {
         newError = {
           ...newError,
           [path]: {
-            error: objectValidation,
-            schema: validators.options,
+            error: objectValidation.errors,
+            schema: {
+              ...validators.options,
+              ...objectValidation.params,
+            },
             isArray: true,
           },
         };
@@ -82,8 +91,11 @@ export default function validate(obj, schema, options = {}, allValues) {
         newError = {
           ...errors,
           [path]: {
-            error: validation,
-            schema: validators,
+            error: validation.errors,
+            schema: {
+              ...validators,
+              ...validation.params,
+            },
           },
         };
       }

@@ -1,6 +1,4 @@
 import validateValue from '../src/validateValue';
-import validate from '../src/validate';
-import collectionOf from '../src/collectionOf';
 
 describe('validateValue', () => {
   const value = 'Iva';
@@ -12,12 +10,24 @@ describe('validateValue', () => {
 
   it('should validate object by schema', () => {
     expect(validateValue(value, schema)).to.deep.equal({
-      minLength: 4,
+      errors: {
+        minLength: 4,
+      },
+      params: {
+        minLength: 4,
+      }
     });
     expect(validateValue(null, schema)).to.deep.equal({
-      required: true,
-      minLength: 4,
-      string: true,
+      errors: {
+        required: true,
+        minLength: 4,
+        string: true,
+      },
+      params: {
+        required: true,
+        minLength: 4,
+        string: true,
+      }
     });
   });
   it('should return null if value is valid by schema', () => {
@@ -27,7 +37,41 @@ describe('validateValue', () => {
     expect(validateValue(null, {
       minLength: 4,
     })).to.deep.equal({
-      minLength: 4
+      errors: {
+        minLength: 4
+      },
+      params: {
+        minLength: 4
+      }
+    });
+  });
+
+  describe('function as validation param', () => {
+    it('should calculate validate param with function', () => {
+      expect(validateValue('10', {
+        minLength() { return 3; },
+      })).to.deep.equal({
+        errors: {
+          minLength: 3,
+        },
+        params: {
+          minLength: 3,
+        }
+      });
+      expect(validateValue(null, {
+        required() { return false; },
+      })).to.deep.equal(null);
+
+      expect(validateValue(null, {
+        required() { return true; },
+      })).to.deep.equal({
+        errors: {
+          required: true,
+        },
+        params: {
+          required: true,
+        }
+      });
     });
   });
 
@@ -49,7 +93,12 @@ describe('validateValue', () => {
     ], {
       uniqueKey: 'id',
     })).to.deep.equal({
-      uniqueKey: 'id',
+      errors: {
+        uniqueKey: 'id',
+      },
+      params: {
+        uniqueKey: 'id',
+      }
     });
 
     expect(validateValue([

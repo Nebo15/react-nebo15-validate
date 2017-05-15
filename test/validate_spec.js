@@ -96,7 +96,7 @@ describe('validate', () => {
         expect(validate({
           contacts: [],
         }, schema)).to.deep.equal({
-          'contacts': {
+          contacts: {
             error: {
               minLength: 1,
             },
@@ -195,7 +195,7 @@ describe('validate', () => {
         expect(validate({
           contacts: null,
         }, schema)).to.deep.equal({
-          'contacts': {
+          contacts: {
             error: {
               required: true,
             },
@@ -220,7 +220,7 @@ describe('validate', () => {
         expect(validate({
           contacts: [],
         }, schema)).to.deep.equal({
-          'contacts': {
+          contacts: {
             error: {
               minLength: 1,
             },
@@ -232,5 +232,25 @@ describe('validate', () => {
         });
       });
     });
-  })
+  });
+  describe('function as param', () => {
+    it('should get in arguments hole object values', () => {
+      expect(validate({
+        type: 'car',
+      }, {
+        model: {
+          required: (props, value, values) => values.type === 'car',
+        },
+      })).to.deep.equal({
+        model: {
+          error: {
+            required: true,
+          },
+          schema: {
+            required: true,
+          },
+        },
+      });
+    });
+  });
 });

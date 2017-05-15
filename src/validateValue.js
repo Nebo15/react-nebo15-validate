@@ -3,7 +3,9 @@ import { getValidation } from './validations';
 export default (value, validators, values, props = {}, allValues) =>
   Object.entries(validators).reduce((errors, [validatorName, validatorParams]) => {
     const validator = getValidation(validatorName);
-    const requiredValidator = getValidation(requiredValidator);
+    let newErrors = (errors || {}).errors;
+    let newParams = (errors || {}).params;
+
     if (!validator) throw new Error(`undefined validation ${validatorName}`);
 
     let realValidationParams = validatorParams;
@@ -14,13 +16,20 @@ export default (value, validators, values, props = {}, allValues) =>
     }
 
     if (!validator(value, realValidationParams, values, allValues, props)) { // eslint-disable-line
-      return {
-        ...(errors || {}),
+      newErrors = {
+        ...(newErrors || {}),
         [validatorName]: validatorParams && validatorParams.format
           ? validatorParams.format(realValidationParams)
           : realValidationParams,
       };
+      newParams = {
+        ...(newParams || {}),
+        [validatorName]: realValidationParams,
+      };
     }
 
-    return errors;
+    return (newParams || newErrors) ? {
+      errors: newErrors || {},
+      params: newParams || {},
+    } : null;
   }, null);

@@ -5,7 +5,17 @@ describe('ipv4', () => {
     expect(validateValue('122.222.222.222', { ipv4: true })).to.be.null;
   });
   it('should return false', () => {
-    expect(validateValue('...', { ipv4: true })).to.deep.equal({ ipv4: true });
-    expect(validateValue('', { ipv4: true })).to.deep.equal({ ipv4: true });
+    expect(validateValue('...', { ipv4: true })).to.deep.equal({
+      errors: {
+        ipv4: true
+      },
+      params: {
+        ipv4: true
+      }
+    });
+    expect(validateValue('', { ipv4: true })).to.deep.equal({
+      errors: { ipv4: true },
+      params: { ipv4: true },
+    });
   });
 });

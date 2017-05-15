@@ -53,8 +53,8 @@ describe('reduxFormValidate', () => {
           }
         ],
       })).to.deep.equal({
-        'contacts': {
-          '_error': {
+        contacts: {
+          _error: {
             uniqueKey: 'key',
           },
         },
@@ -71,8 +71,8 @@ describe('reduxFormValidate', () => {
       expect(validate({
         contacts: [1, 1],
       })).to.deep.equal({
-        'contacts': {
-          '_error': {
+        contacts: {
+          _error: {
             unique: true,
           },
         },
@@ -108,5 +108,16 @@ describe('reduxFormValidate', () => {
       });
     });
   });
-});
 
+  describe('function as a param', () => {
+    it('should support function as a param', () => {
+      const validate = reduxFormValidate({
+        description: {
+          required: () => true,
+        },
+      });
+
+      expect(validate({ description: '' })).to.deep.equal({ description: { required: true } });
+    });
+  });
+});
