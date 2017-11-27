@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import templateFn from 'lodash/template';
 
 const errors = {
@@ -63,9 +64,9 @@ export class ErrorMessage extends React.Component {
   }
 }
 ErrorMessage.propTypes = {
-  when: React.PropTypes.string.isRequired,
-  children: React.PropTypes.string.isRequired,
-  params: React.PropTypes.any, // eslint-disable-line
+  when: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired,
+  params: PropTypes.any, // eslint-disable-line
 };
 
 export const ErrorMessagesComponent = ({ error, children }) => {
