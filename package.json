@@ -24,7 +24,8 @@
     "babel-require": "^1.0.1",
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
-    "enzyme": "^2.8.0",
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^3.5.0",
     "eslint-config-airbnb": "11.1.0",
     "eslint-loader": "^1.7.0",
@@ -35,7 +36,7 @@
     "jsdom": "^9.12.0",
     "mocha": "^2.3.4",
     "react-addons-test-utils": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "react-dom": "^16.4.1",
     "rimraf": "^2.6.1",
     "webpack": "1.12.9",
     "yargs": "3.32.0"
@@ -63,11 +64,11 @@
   },
   "homepage": "https://github.com/nebo15/react-nebo15-validate",
   "peerDependencies": {
-    "react": "^15.0.0"
+    "react": "^15.0.0-0 || ^16.0.0-0"
   },
   "dependencies": {
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
-    "react": "^15.4.2"
+    "react": "^16.4.1"
   }
 }
