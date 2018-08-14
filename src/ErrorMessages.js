@@ -56,7 +56,13 @@ export class ErrorMessage extends React.Component {
   }
   template = null;
   updateTemplate(message) {
-    this.template = templateFn(message);
+    try {
+      this.template = templateFn(message);
+    } catch (e) {
+      this.template = () => message;
+      console.error(`Error in creating template function from message ${message}`); // eslint-disable-line
+      console.error(e); // eslint-disable-line
+    }
   }
   render() {
     const { when, params } = this.props;
