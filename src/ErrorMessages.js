@@ -47,10 +47,10 @@ const errors = {
 export class ErrorMessage extends React.Component {
   constructor(props) {
     super(props);
-    this.updateTemplate(props.children);
+    !props.disableTemplateString && this.updateTemplate(props.children);
   }
   componentWillReceiveProps(props) {
-    if (props.children !== this.props.children) {
+    if (!props.disableTemplateString && (props.children !== this.props.children)) {
       this.updateTemplate(props.children);
     }
   }
@@ -65,13 +65,16 @@ export class ErrorMessage extends React.Component {
     }
   }
   render() {
-    const { when, params } = this.props;
-    return <span data-error-type={when}>{this.template({ params })}</span>;
+    const { when, params, children, disableTemplateString } = this.props;
+    return disableTemplateString
+      ? <div data-error-type={when}>{children}</div>
+      : <span data-error-type={when}>{this.template({ params })}</span>;
   }
 }
 ErrorMessage.propTypes = {
+  disableTemplateString: PropTypes.bool,
   when: PropTypes.string.isRequired,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.any.isRequired,
   params: PropTypes.any, // eslint-disable-line
 };
 
